@@ -24,7 +24,7 @@ public final class ProductContract {
      * content authority is the package name for the app, which is guaranteed to be unique on the
      * device.
      */
-    public static final String CONTENT_AUTHORITY = "com.example.android.inventoryapp";
+    public static final String CONTENT_AUTHORITY = "com.exemple.android.inventoryapp";
     /**
      * Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
      * the content provider.
@@ -65,7 +65,7 @@ public final class ProductContract {
         /**
          * Unique ID number for the product (only for use in the database table).
          *
-         * Type: INTEGER
+         * Type: INTEGER NOT NULL DEFAULT 0
          */
         public final static String _ID = BaseColumns._ID;
 
@@ -77,28 +77,24 @@ public final class ProductContract {
         public final static String COLUMN_PRODUCT_NAME ="name";
 
         /**
-         * Breed of the product.
+         * Quantity of the product.
          *
-         * Type: TEXT
+         * Type: INTEGER NOT NULL DEFAULT 0
          */
-        public final static String COLUMN_PRODUCT_BREED = "breed";
+        public final static String COLUMN_PRODUCT_QUANTITY = "quantity";
 
         /**
-         * Gender of the product.
-         *
-         * The only possible values are {@link #GENDER_UNKNOWN}, {@link #GENDER_MALE},
-         * or {@link #GENDER_FEMALE}.
+         * Price of the product.
+         * Type: DOUBLE
+         */
+        public final static String COLUMN_PRODUCT_PRICE = "price";
+
+        /**
+         * Image of the product.
          *
          * Type: INTEGER
          */
-        public final static String COLUMN_PRODUCT_GENDER = "gender";
-
-        /**
-         * Weight of the product.
-         *
-         * Type: INTEGER
-         */
-        public final static String COLUMN_PRODUCT_WEIGHT = "weight";
+        public final static String COLUMN_PRODUCT_IMAGE = "image";
 
         /**
          * Possible values for the gender of the product.

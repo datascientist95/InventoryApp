@@ -28,7 +28,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.android.inventoryapp.R;
 import com.exemple.android.inventoryapp.data.ProductContract.ProductEntry;
 /**
  * Allows user to create a new product or edit an existing one.
@@ -46,11 +45,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /** EditText field to enter the product's name */
     private EditText mNameEditText;
 
-    /** EditText field to enter the product's breed */
-    private EditText mBreedEditText;
+    /** EditText field to enter the product's quantity */
+    private EditText mQuantityEditText;
 
-    /** EditText field to enter the product's weight */
-    private EditText mWeightEditText;
+    /** EditText field to enter the product's price */
+    private EditText mPriceEditText;
+
+    /** EditText field to enter the product's image */
+    private EditText mImageEditText;
 
     /** EditText field to enter the product's gender */
     private Spinner mGenderSpinner;
@@ -116,16 +118,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         // Find all relevant views that we will need to read user input from
         mNameEditText = (EditText) findViewById(R.id.edit_product_name);
-        mBreedEditText = (EditText) findViewById(R.id.edit_product_breed);
-        mWeightEditText = (EditText) findViewById(R.id.edit_product_weight);
+        mQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
+        mPriceEditText = (EditText) findViewById(R.id.edit_product_price);
+        mImageEditText = (EditText) findViewById(R.id.edit_product_image);
         mGenderSpinner = (Spinner) findViewById(R.id.spinner_gender);
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
         mNameEditText.setOnTouchListener(mTouchListener);
-        mBreedEditText.setOnTouchListener(mTouchListener);
-        mWeightEditText.setOnTouchListener(mTouchListener);
+        mQuantityEditText.setOnTouchListener(mTouchListener);
+        mPriceEditText.setOnTouchListener(mTouchListener);
         mGenderSpinner.setOnTouchListener(mTouchListener);
 
         setupSpinner();
@@ -176,8 +179,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 //        // Read from input fields
 //        // Use trim to eliminate leading or trailing white space
 //        String nameString = mNameEditText.getText().toString().trim();
-//        String breedString = mBreedEditText.getText().toString().trim();
-//        String weightString = mWeightEditText.getText().toString().trim();
+//        String quantityString = mQuantityEditText.getText().toString().trim();
+//        String ggghtString = mWeightEditText.getText().toString().trim();
 //        int weight = Integer.parseInt(weightString);
 //
 //        // Create database helper
@@ -190,7 +193,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 //        // and product attributes from the editor are the values.
 //        ContentValues values = new ContentValues();
 //        values.put(ProductEntry.COLUMN_PRODUCT_NAME, nameString);
-//        values.put(ProductEntry.COLUMN_PRODUCT_BREED, breedString);
+//        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantityString);
 //        values.put(ProductEntry.COLUMN_PRODUCT_GENDER, mGender);
 //        values.put(ProductEntry.COLUMN_PRODUCT_WEIGHT, weight);
 //
@@ -227,14 +230,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameEditText.getText().toString().trim();
-        String breedString = mBreedEditText.getText().toString().trim();
-        String weightString = mWeightEditText.getText().toString().trim();
+        String quantityString = mQuantityEditText.getText().toString().trim();
+        String priceString = mPriceEditText.getText().toString().trim();
         //int weight = Integer.parseInt(weightString);
         // Check if this is supposed to be a new product
         // and check if all the fields in the editor are blank
         if (mCurrentProductUri == null &&
-                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(breedString) &&
-                TextUtils.isEmpty(weightString) && mGender == ProductEntry.GENDER_UNKNOWN) {
+                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(quantityString) &&
+                TextUtils.isEmpty(priceString) && mGender == ProductEntry.GENDER_UNKNOWN) {
             // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
@@ -243,18 +246,27 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // and product attributes from the editor are the values.
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, nameString);
-        values.put(ProductEntry.COLUMN_PRODUCT_BREED, breedString);
-        values.put(ProductEntry.COLUMN_PRODUCT_GENDER, mGender);
+        //values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantityString);
+        //values.put(ProductEntry.COLUMN_PRODUCT_PRICE, priceString);
         //values.put(ProductEntry.COLUMN_PRODUCT_WEIGHT, weight);
 
-        // If the weight is not provided by the user, don't try to parse the string into an
+        // If the quantity is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
-        int weight = 0;
+        int quantity = 0;
 
-        if (!TextUtils.isEmpty(weightString)) {
-            weight = Integer.parseInt(weightString);
+        if (!TextUtils.isEmpty(quantityString)) {
+            quantity = Integer.parseInt(quantityString);
         }
-        values.put(ProductEntry.COLUMN_PRODUCT_WEIGHT, weight);
+        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, quantity);
+
+        // If the price is not provided by the user, don't try to parse the string into an
+        // integer value. Use 0 by default.
+        Double price = 0.0;
+
+        if (!TextUtils.isEmpty(priceString)) {
+            price = Double.parseDouble(priceString);
+        }
+        values.put(ProductEntry.COLUMN_PRODUCT_PRICE, price);
 
         // Determine if this is a new or existing product by checking if mCurrentProductUri is null or not
         if (mCurrentProductUri == null) {
@@ -391,9 +403,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String[] projection = {
                 ProductEntry._ID,
                 ProductEntry.COLUMN_PRODUCT_NAME,
-                ProductEntry.COLUMN_PRODUCT_BREED,
-                ProductEntry.COLUMN_PRODUCT_GENDER,
-                ProductEntry.COLUMN_PRODUCT_WEIGHT };
+                ProductEntry.COLUMN_PRODUCT_QUANTITY,
+                ProductEntry.COLUMN_PRODUCT_PRICE,
+                ProductEntry.COLUMN_PRODUCT_IMAGE };
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
@@ -417,35 +429,36 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if (cursor.moveToFirst()) {
             // Find the columns of product attributes that we're interested in
             int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
-            int breedColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_BREED);
-            int genderColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_GENDER);
-            int weightColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_WEIGHT);
+            int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
+            int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
+            int imageColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_IMAGE);
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
-            String breed = cursor.getString(breedColumnIndex);
-            int gender = cursor.getInt(genderColumnIndex);
-            int weight = cursor.getInt(weightColumnIndex);
+            int quantity = cursor.getInt(quantityColumnIndex);
+            int price = cursor.getInt(priceColumnIndex);
+            int image = cursor.getInt(imageColumnIndex);
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
-            mBreedEditText.setText(breed);
-            mWeightEditText.setText(Integer.toString(weight));
+            mQuantityEditText.setText(Integer.toString(quantity));
+            mPriceEditText.setText(Double.toString(price));
+//            mImageEditText.setText(image);
 
             // Gender is a dropdown spinner, so map the constant value from the database
             // into one of the dropdown options (0 is Unknown, 1 is Male, 2 is Female).
             // Then call setSelection() so that option is displayed on screen as the current selection.
-            switch (gender) {
-                case ProductEntry.GENDER_MALE:
-                    mGenderSpinner.setSelection(1);
-                    break;
-                case ProductEntry.GENDER_FEMALE:
-                    mGenderSpinner.setSelection(2);
-                    break;
-                default:
-                    mGenderSpinner.setSelection(0);
-                    break;
-            }
+//            switch (gender) {
+//                case ProductEntry.GENDER_MALE:
+//                    mGenderSpinner.setSelection(1);
+//                    break;
+//                case ProductEntry.GENDER_FEMALE:
+//                    mGenderSpinner.setSelection(2);
+//                    break;
+//                default:
+//                    mGenderSpinner.setSelection(0);
+//                    break;
+//            }
         }
     }
 
@@ -453,8 +466,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoaderReset(Loader<Cursor> loader) {
         // If the loader is invalidated, clear out all the data from the input fields.
         mNameEditText.setText("");
-        mBreedEditText.setText("");
-        mWeightEditText.setText("");
+        mQuantityEditText.setText("");
+        mPriceEditText.setText("");
+        mImageEditText.setText("");
         mGenderSpinner.setSelection(0); // Select "Unknown" gender
     }
 

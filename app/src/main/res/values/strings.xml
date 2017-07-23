@@ -12,7 +12,7 @@
     <string name="editor_activity_title_new_product">Add a Product</string>
 
     <!-- Title for the activity to add a new product [CHAR LIMIT=20] -->
-    <string name="editor_activity_title_edit_product">Edit a Product</string>
+    <string name="editor_activity_title_edit_product">Product Details</string>
 
     <!-- Label for editor menu option to save product and leave editor [CHAR LIMIT=20] -->
     <string name="action_save">Save</string>
@@ -20,8 +20,23 @@
     <!-- Label for editor overflow menu option that deletes the current product [CHAR LIMIT=20] -->
     <string name="action_delete">Delete</string>
 
+    <!-- Label for  list item [CHAR LIMIT=30] -->
+    <string name="list_quantity">Quantity</string>
+
+    <!-- Label for  list item [CHAR LIMIT=30] -->
+    <string name="list_price">Price</string>
+
     <!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
     <string name="category_overview">Overview</string>
+
+    <!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_quantity">Quantity</string>
+
+    <!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_price">Price</string>
+
+    <!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_supplier">Supplier</string>
 
     <!-- Label for gender information in the editor [CHAR LIMIT=30] -->
     <string name="category_gender">Gender</string>
@@ -29,17 +44,20 @@
     <!-- Label for measurement information in the editor [CHAR LIMIT=30] -->
     <string name="category_measurement">Measurement</string>
 
+    <!-- Label for measurement information in the editor [CHAR LIMIT=30] -->
+    <string name="send_mail">Send mail to supplier</string>
+
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
     <string name="hint_product_name">Name</string>
 
-    <!-- Text hint for breed field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_product_breed">Breed</string>
+    <!-- Text hint for quantity field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_product_quantity">Quantity</string>
 
-    <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
-    <string name="hint_product_weight">Weight</string>
+    <!-- Text hint for quantity field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_product_price">Price</string>
 
     <!-- Units for weight of the product (kilograms) [CHAR LIMIT=5] -->
-    <string name="unit_product_weight">kg</string>
+    <string name="unit_product_dollar">$</string>
 
     <!-- Label for dropdown menu option if the product's gender is unknown [CHAR LIMIT=20] -->
     <string name="gender_unknown">Unknown</string>
@@ -57,7 +75,7 @@
     <string name="editor_insert_product_failed">Error with saving product</string>
 
     <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
-    <string name="empty_view_title_text">It\'s a bit lonely here...</string>
+    <string name="empty_view_title_text">Inventory is empty</string>
 
     <!-- Subtitle text for the empty view that prompts the user to add a product [CHAR LIMIT=50] -->
     <string name="empty_view_subtitle_text">Get started by adding a product</string>
@@ -91,6 +109,7 @@
     <!-- Dialog button text for the option to cancel deletion of the current product [CHAR LIMIT=20] -->
     <string name="cancel">Cancel</string>
 
-    <!-- Label for the product's breed if the breed is unknown [CHAR LIMIT=20] -->
-    <string name="unknown_breed">Unknown breed</string>
+    <!-- Dialog button text for the option to cancel deletion of the current product [CHAR LIMIT=20] -->
+    <string name="error_quantity_update">Quantity error</string>
+
 </resources>

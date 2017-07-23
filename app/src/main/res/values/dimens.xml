@@ -5,4 +5,14 @@
 
     <!-- Common margin value used throughout the app -->
     <dimen name="activity_margin">16dp</dimen>
+
+    <!-- Height of each list item -->
+    <dimen name="list_item_height">88dp</dimen>
+
+    <!-- Common Dimensions -->
+    <dimen name="dimen_0dp">0dp</dimen>
+
+    <!-- Common Dimensions -->
+    <dimen name="dimen_5dp">5dp</dimen>
+
 </resources>

@@ -126,14 +126,15 @@ public class ProductProvider extends ContentProvider {
         if (name == null) {
             throw new IllegalArgumentException("Product requires a name");
         }
-        Integer gender = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_GENDER);
-        if (gender == null || !ProductEntry.isValidGender(gender)) {
-            throw new IllegalArgumentException("Product requires valid gender");
+        // If the quantity is provided, check that it's greater than or equal to 0
+        Integer quantity = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Product requires valid quantity");
         }
-        // If the weight is provided, check that it's greater than or equal to 0 kg
-        Integer weight = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_WEIGHT);
-        if (weight != null && weight < 0) {
-            throw new IllegalArgumentException("Product requires valid weight");
+        // If the price is provided, check that it's greater than or equal to 0
+        Double price = values.getAsDouble(ProductEntry.COLUMN_PRODUCT_PRICE);
+        if (price == null || price<0) {
+            throw new IllegalArgumentException("Product requires valid price");
         }
 
         // TODO: Insert a new product into the products database table with the given ContentValues
@@ -189,15 +190,17 @@ public class ProductProvider extends ContentProvider {
         if (name == null) {
             throw new IllegalArgumentException("Product requires a name");
         }
-        Integer gender = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_GENDER);
-        if (gender == null || !ProductEntry.isValidGender(gender)) {
-            throw new IllegalArgumentException("Product requires valid gender");
+        // If the quantity is provided, check that it's greater than or equal to 0
+        Integer quantity = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Product requires valid quantity");
         }
-        // If the weight is provided, check that it's greater than or equal to 0 kg
-        Integer weight = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_WEIGHT);
-        if (weight != null && weight < 0) {
-            throw new IllegalArgumentException("Product requires valid weight");
+        // If the price is provided, check that it's greater than or equal to 0
+        Double price = values.getAsDouble(ProductEntry.COLUMN_PRODUCT_PRICE);
+        if (price == null || price<0) {
+            throw new IllegalArgumentException("Product requires valid price");
         }
+
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {
             return 0;

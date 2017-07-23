@@ -24,7 +24,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.android.inventoryapp.R;
 import com.exemple.android.inventoryapp.data.ProductContract.ProductEntry;
 import com.exemple.android.inventoryapp.data.ProductDbHelper;
 /**
@@ -91,101 +90,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         getSupportLoaderManager().initLoader(PRODUCT_LOADER,null,this);
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        displayDatabaseInfo();
-//    }
-
-    /**
-     * Temporary helper method to display information in the onscreen TextView about the state of
-     * the products database.
-     */
-    /*private void displayDatabaseInfo() {
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-        //ProductDbHelper mDbHelper = new ProductDbHelper(this);
-
-        // Create and/or open a database to read from it
-        //SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        // Perform this raw SQL query "SELECT * FROM products"
-        // to get a Cursor that contains all rows from the products table.
-        //Cursor cursor = db.rawQuery("SELECT * FROM " + ProductEntry.TABLE_NAME, null);
-
-        String[] projection = {
-          ProductEntry._ID,
-          ProductEntry.COLUMN_PRODUCT_NAME,
-          ProductEntry.COLUMN_PRODUCT_BREED,
-          ProductEntry.COLUMN_PRODUCT_GENDER,
-          ProductEntry.COLUMN_PRODUCT_WEIGHT
-        };
-
-        *//*Cursor cursor = db.query(
-                ProductEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null);*//*
-
-        Cursor cursor = getContentResolver().query(ProductEntry.CONTENT_URI,projection,null,null,null);
-
-        // Find the ListView which will be populated with the product data
-        ListView productListView = (ListView) findViewById(R.id.list);
-
-        // Setup an Adapter to create a list item for each row of product data in the Cursor.
-        ProductCursorAdapter adapter = new ProductCursorAdapter(this, cursor);
-
-        // Attach the adapter to the ListView.
-        productListView.setAdapter(adapter);
-
-        *//*TextView displayView = (TextView) findViewById(R.id.text_view_product);
-        try {
-            // Create a header in the Text View that looks like this:
-            //
-            // The products table contains <number of rows in Cursor> products.
-            // _id - name - breed - gender - weight
-            //
-            // In the while loop below, iterate through the rows of the cursor and display
-            // the information from each column in this order.
-            displayView.setText("The products table contains " + cursor.getCount() + " products.\n\n");
-            displayView.append(ProductEntry._ID + " - " +
-                    ProductEntry.COLUMN_PRODUCT_NAME + " - " +
-                    ProductEntry.COLUMN_PRODUCT_BREED + " - " +
-                    ProductEntry.COLUMN_PRODUCT_GENDER + " - " +
-                    ProductEntry.COLUMN_PRODUCT_WEIGHT + "\n");
-
-            // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(ProductEntry._ID);
-            int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
-            int breedColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_BREED);
-            int genderColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_GENDER);
-            int weightColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_WEIGHT);
-
-            // Iterate through all the returned rows in the cursor
-            while (cursor.moveToNext()) {
-                // Use that index to extract the String or Int value of the word
-                // at the current row the cursor is on.
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                String currentBreed = cursor.getString(breedColumnIndex);
-                int currentGender = cursor.getInt(genderColumnIndex);
-                int currentWeight = cursor.getInt(weightColumnIndex);
-                // Display the values from each column of the current row in the cursor in the TextView
-                displayView.append(("\n" + currentID + " - " +
-                        currentName + " - " +
-                        currentBreed + " - " +
-                        currentGender + " - " +
-                        currentWeight));
-            }
-        }finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
-            cursor.close();
-        }*//*
-    }*/
     /**
      * Helper method to insert hardcoded product data into the database. For debugging purposes only.
      */
@@ -196,10 +100,10 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // Create a ContentValues object where column names are the keys,
         // and Toto's product attributes are the values.
         ContentValues values = new ContentValues();
-        values.put(ProductEntry.COLUMN_PRODUCT_NAME, "Toto");
-        values.put(ProductEntry.COLUMN_PRODUCT_BREED, "Terrier");
-        values.put(ProductEntry.COLUMN_PRODUCT_GENDER, ProductEntry.GENDER_MALE);
-        values.put(ProductEntry.COLUMN_PRODUCT_WEIGHT, 7);
+        values.put(ProductEntry.COLUMN_PRODUCT_NAME, "Box");
+        values.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, 10);
+        values.put(ProductEntry.COLUMN_PRODUCT_PRICE, 2.0);
+        values.put(ProductEntry.COLUMN_PRODUCT_IMAGE, "");
 
         // Insert a new row for Toto in the database, returning the ID of that new row.
         // The first argument for db.insert() is the products table name.
@@ -251,7 +155,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         String[] projection = {
                 ProductEntry._ID,
                 ProductEntry.COLUMN_PRODUCT_NAME,
-                ProductEntry.COLUMN_PRODUCT_BREED  };
+                ProductEntry.COLUMN_PRODUCT_QUANTITY,
+                ProductEntry.COLUMN_PRODUCT_PRICE};
 
         // This loader will execute ContentProvider query method on a background thread
         return new CursorLoader(this, //Parent activity context
