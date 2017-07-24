@@ -188,17 +188,17 @@ public class ProductProvider extends ContentProvider {
         // Check that the name is not null
         String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
         if (name == null) {
-            throw new IllegalArgumentException("Product requires a name");
+            //throw new IllegalArgumentException("Product requires a name");
         }
         // If the quantity is provided, check that it's greater than or equal to 0
         Integer quantity = values.getAsInteger(ProductEntry.COLUMN_PRODUCT_QUANTITY);
         if (quantity != null && quantity < 0) {
-            throw new IllegalArgumentException("Product requires valid quantity");
+            //throw new IllegalArgumentException("Product requires valid quantity");
         }
         // If the price is provided, check that it's greater than or equal to 0
         Double price = values.getAsDouble(ProductEntry.COLUMN_PRODUCT_PRICE);
         if (price == null || price<0) {
-            throw new IllegalArgumentException("Product requires valid price");
+            //throw new IllegalArgumentException("Product requires valid price");
         }
 
         // If there are no values to update, then don't try to update the database

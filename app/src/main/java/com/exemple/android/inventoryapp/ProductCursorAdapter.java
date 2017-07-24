@@ -86,12 +86,6 @@ public class ProductCursorAdapter extends CursorAdapter {
         final int productQuantity = cursor.getInt(quantityColumnIndex);
         Double productPrice = cursor.getDouble(priceColumnIndex);
 
-        // If the product breed is empty string or null, then use some default text
-        // that says "Unknown breed", so the TextView isn't blank.
-//        if (TextUtils.isEmpty(productQuantity)) {
-//            productQuantity = context.getString(R.string.unknown_breed);
-//        }
-
         // Update the TextViews with the attributes for the current product
         nameTextView.setText(productName);
         textpriceTextView.setText(R.string.list_price);
