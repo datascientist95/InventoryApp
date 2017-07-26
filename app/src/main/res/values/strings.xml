@@ -64,6 +64,9 @@
     <string name="unit_product_dollar">$</string>
 
     <!-- Toast message in editor when new product has been successfully inserted [CHAR LIMIT=NONE] -->
+    <string name="editor_empty_field_product">all fields need to be filled</string>
+
+    <!-- Toast message in editor when new product has been successfully inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_product_successful">Product saved</string>
 
     <!-- Toast message in editor when new product has failed to be inserted [CHAR LIMIT=NONE] -->

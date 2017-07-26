@@ -38,6 +38,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static com.exemple.android.inventoryapp.R.id.quantity;
+
 /**
  * Allows user to create a new product or edit an existing one.
  */
@@ -126,6 +128,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mButtonIncrease = (Button) findViewById(R.id.button_increase);
         mButtonDecrease = (Button) findViewById(R.id.button_decrease);
 
+        final String email = getString(R.string.supplier_email);
+        final String subject = getString(R.string.supplier_subject);
+
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
         // or not, if the user tries to leave the editor without saving.
@@ -136,6 +141,26 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mButtonEmail.setOnTouchListener(mTouchListener);
         mButtonIncrease.setOnTouchListener(mTouchListener);
         mButtonDecrease.setOnTouchListener(mTouchListener);
+
+
+        mButtonImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+
+                if (Build.VERSION.SDK_INT < 19) {
+                    intent = new Intent(Intent.ACTION_GET_CONTENT);
+                } else {
+                    intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                }
+                intent.setType("image/*");
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+            }
+        });
+        //hide button for quantity
+        mButtonIncrease.setVisibility(View.GONE);
+        mButtonDecrease.setVisibility(View.GONE);
 
     }
 
@@ -148,14 +173,18 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String nameString = mNameEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
-        //int weight = Integer.parseInt(weightString);
+
+
         // Check if this is supposed to be a new product
         // and check if all the fields in the editor are blank
         if (mCurrentProductUri == null &&
                 (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(quantityString) ||
-                TextUtils.isEmpty(priceString)) ) {
+                TextUtils.isEmpty(priceString) || (mImageView.getDrawable() == null)) ) {
             // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
+            // display a toast.
+            Toast.makeText(this, getString(R.string.editor_empty_field_product),
+                    Toast.LENGTH_SHORT).show();
             return;
         }
         // Create a ContentValues object where column names are the keys,
@@ -340,6 +369,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Proceed with moving to the first row of the cursor and reading data from it
         // (This should be the only row in the cursor)
         if (cursor.moveToFirst()) {
+
+            //display button for quantity
+            mButtonIncrease.setVisibility(View.VISIBLE);
+            mButtonDecrease.setVisibility(View.VISIBLE);
+
             // Find the columns of product attributes that we're interested in
             int nameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
             int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
@@ -358,7 +392,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             mNameEditText.setText(name);
             mQuantityEditText.setText(Integer.toString(quantity));
             mPriceEditText.setText(Double.toString(price));
-//            mImageEditText.setText(image);
+            mSaveImageText = image;
 
             // Set OnClickListener on stock decrease button
             mButtonDecrease.setOnClickListener(new View.OnClickListener() {
@@ -414,7 +448,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mNameEditText.setText("");
         mQuantityEditText.setText("");
         mPriceEditText.setText("");
-        //mImageEditText.setText("");
 
     }
 
@@ -450,6 +483,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mImageUri != null) {
+            outState.putString(STATE_IMAGE_URI, mImageUri.toString());
+        }
+    }
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
